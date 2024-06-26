@@ -6,18 +6,6 @@
 			"options": {
 				"printWidth": 9999
 			}
-		},
-		{
-			"files": ["*.js", "*.jsx", "*.vue"],
-			"options": {
-				"singleAttributePerLine": true
-			}
-		},
-		{
-			"files": ["*.jsonc"],
-			"options": {
-				"trailingComma": "none"
-			}
 		}
 	]
 }
