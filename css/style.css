@@ -54,7 +54,7 @@
 	--lh-small: 1.2;
 
 	/* Line length */
-	--page-max-inline-size: 90em;
+	--page-max-inline-size: 1500px;
 
 	/* Padding */
 	--padding-xxxxl: 3em;
@@ -378,8 +378,8 @@ details[open] .icon-chevron-down {
 	flex-grow: 1;
 }
 
-.l-switcher > :nth-last-child(n + 5),
-.l-switcher > :nth-last-child(n + 5) ~ * {
+.l-switcher > :nth-last-child(n + 3),
+.l-switcher > :nth-last-child(n + 3) ~ * {
 	flex-basis: 100%;
 }
 
@@ -477,6 +477,15 @@ details[open] .icon-chevron-down {
 
 .card .button {
 	inline-size: 100%;
+}
+
+.cards-container {
+	--size: 360px;
+	--gap: var(--space, var(--flow-space, 1rem));
+
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, calc(var(--size) - var(--gap))), 1fr));
+	gap: var(--gap);
 }
 
 .hero-banner {
