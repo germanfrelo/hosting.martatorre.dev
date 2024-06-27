@@ -1,4 +1,149 @@
-body,
+/*
+	STRUCTURE:
+	0. Layers and imports
+	1. Global custom properties
+	2. Global and inherited styles
+	3. Composition / Layout primitives
+	4. Utility classes
+	5. Blocks
+	6. Exceptions
+*/
+
+/* ============ 0. LAYERS AND IMPORTS ============ */
+
+/* ============ 1. GLOBAL CUSTOM PROPERTIES ============ */
+
+:root {
+	/* Font */
+	--ff-sans-fallback: system-ui, -apple-system, "Segoe UI", "Roboto", "Helvetica Neue", "Arial", "Noto Sans", "Liberation Sans", sans-serif;
+	--ff-regular: "Red Hat Display", var(--ff-sans-fallback);
+	--fw-regular-regular: 400;
+	--fw-regular-medium: 500;
+	--fw-regular-bold: 700;
+	--ff-special: "Space Grotesk", var(--ff-sans-fallback);
+	--fw-special-bold: 800;
+	--ff-mono: "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", monospace;
+
+	/* Size Scale */
+	--base-size: 1rem;
+	--ratio: var(--lh-large, 1.5);
+	--s-900: calc(var(--base-size) * var(--ratio) * var(--ratio) * var(--ratio) * var(--ratio) * var(--ratio));
+	--s-800: calc(var(--base-size) * var(--ratio) * var(--ratio) * var(--ratio) * var(--ratio));
+	--s-700: calc(var(--base-size) * var(--ratio) * var(--ratio) * var(--ratio));
+	--s-600: calc(var(--base-size) * var(--ratio) * var(--ratio));
+	--s-500: calc(var(--base-size) * var(--ratio));
+	--s-400: var(--base-size);
+	--s-300: calc(var(--base-size) / var(--ratio));
+	--s-200: calc(var(--base-size) / var(--ratio) / var(--ratio));
+	--s-100: calc(var(--base-size) / var(--ratio) / var(--ratio) / var(--ratio));
+
+	/* Fluid Type Scale */
+
+	/* @link https://utopia.fyi/type/calculator?c=320,16,1.2,1440,20,1.2,5,1,&s=0.75|0.5|0.25,1.5|2|3|4|6,s-l&g=s,l,xl,12 */
+	--step--1: clamp(0.8333rem, 0.7738rem + 0.2976vi, 1.0417rem);
+	--step-0: clamp(1rem, 0.9286rem + 0.3571vi, 1.25rem);
+	--step-1: clamp(1.2rem, 1.1143rem + 0.4286vi, 1.5rem);
+	--step-2: clamp(1.44rem, 1.3371rem + 0.5143vi, 1.8rem);
+	--step-3: clamp(1.728rem, 1.6046rem + 0.6171vi, 2.16rem);
+	--step-4: clamp(2.0736rem, 1.9255rem + 0.7406vi, 2.592rem);
+	--step-5: clamp(2.4883rem, 2.3106rem + 0.8887vi, 3.1104rem);
+
+	/* Line Height */
+	--lh-large: 1.7;
+	--lh-medium: 1.4;
+	--lh-small: 1.2;
+
+	/* Line length */
+	--page-max-inline-size: 90em;
+
+	/* Padding */
+	--padding-xxxxl: 3em;
+	--padding-xxxl: 2em;
+	--padding-xxl: 1.75em;
+	--padding-xl: 1.5em;
+	--padding-lg: 1.25em;
+	--padding-md: 1em;
+	--padding-sm: 0.75em;
+	--padding-xs: 0.5em;
+	--padding-xxs: 0.25em;
+	--padding-xxxs: 0.125em;
+
+	/* Colors */
+	--wp--preset--color--black: #000;
+	--wp--preset--color--cyan-bluish-gray: #abb8c3;
+	--wp--preset--color--white: #fff;
+	--wp--preset--color--pale-pink: #f78da7;
+	--wp--preset--color--vivid-red: #cf2e2e;
+	--wp--preset--color--luminous-vivid-orange: #ff6900;
+	--wp--preset--color--luminous-vivid-amber: #fcb900;
+	--wp--preset--color--light-green-cyan: #7bdcb5;
+	--wp--preset--color--vivid-green-cyan: #00d084;
+	--wp--preset--color--pale-cyan-blue: #8ed1fc;
+	--wp--preset--color--vivid-cyan-blue: #0693e3;
+	--wp--preset--color--vivid-purple: #9b51e0;
+	--wp--preset--color--mt-green: #28e8a3;
+	--wp--preset--color--mt-blue: #11d9ed;
+	--wp--preset--color--mt-dark-blue: #011046;
+	--wp--preset--color--mt-yellow: #fbce13;
+	--wp--preset--color--mt-purple: #725bff;
+	--wp--preset--color--mt-pink: #ff7480;
+	--wp--preset--color--mt-cold-gray: #e9edf4;
+	--wp--preset--color--dark-gray: #212529;
+	--wp--preset--color--dark-gray-900: #191e23;
+	--wp--preset--color--dark-gray-800: #23282d;
+	--wp--preset--color--dark-gray-700: #32373c;
+	--wp--preset--color--dark-gray-600: #40464d;
+	--wp--preset--color--dark-gray-500: #555d66;
+	--wp--preset--color--dark-gray-400: #606a74;
+	--wp--preset--color--dark-gray-300: #6c7782;
+	--wp--preset--color--dark-gray-200: #7e8993;
+	--wp--preset--color--dark-gray-100: #8f98a1;
+	--wp--preset--color--light-gray-900: #a2aab2;
+	--wp--preset--color--light-gray-800: #b5bcc2;
+	--wp--preset--color--light-gray-700: #ccd0d4;
+	--wp--preset--color--light-gray-600: #d7dade;
+	--wp--preset--color--light-gray-500: #e2e4e7;
+	--wp--preset--color--light-gray-400: #e8eaeb;
+	--wp--preset--color--light-gray-300: #edeff0;
+	--wp--preset--color--light-gray-200: #f3f4f5;
+	--wp--preset--color--light-gray-100: #fbfbfc;
+	--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg, rgb(6 147 227 / 100%) 0%, rgb(155 81 224) 100%);
+	--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg, rgb(122 220 180) 0%, rgb(0 208 130) 100%);
+	--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg, rgb(252 185 0 / 100%) 0%, rgb(255 105 0 / 100%) 100%);
+	--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg, rgb(255 105 0 / 100%) 0%, rgb(207 46 46) 100%);
+	--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg, rgb(238 238 238) 0%, rgb(169 184 195) 100%);
+	--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg, rgb(74 234 220) 0%, rgb(151 120 209) 20%, rgb(207 42 186) 40%, rgb(238 44 130) 60%, rgb(251 105 98) 80%, rgb(254 248 76) 100%);
+	--wp--preset--gradient--blush-light-purple: linear-gradient(135deg, rgb(255 206 236) 0%, rgb(152 150 240) 100%);
+	--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg, rgb(254 205 165) 0%, rgb(254 45 45) 50%, rgb(107 0 62) 100%);
+	--wp--preset--gradient--luminous-dusk: linear-gradient(135deg, rgb(255 203 112) 0%, rgb(199 81 192) 50%, rgb(65 88 208) 100%);
+	--wp--preset--gradient--pale-ocean: linear-gradient(135deg, rgb(255 245 203) 0%, rgb(182 227 212) 50%, rgb(51 167 181) 100%);
+	--wp--preset--gradient--electric-grass: linear-gradient(135deg, rgb(202 248 128) 0%, rgb(113 206 126) 100%);
+	--wp--preset--gradient--midnight: linear-gradient(135deg, rgb(2 3 129) 0%, rgb(40 116 252) 100%);
+}
+
+/* ============ 2. GLOBAL AND INHERITED STYLES ============ */
+
+/* All elements
+   ======================================== */
+
+* {
+	margin: 0;
+}
+
+/* Sections and headings
+   ======================================== */
+
+body {
+	padding-block: var(--padding-xxxxl);
+	font-family: var(--ff-regular);
+	font-size: var(--step-0);
+	font-weight: 400;
+	font-variant-ligatures: no-common-ligatures;
+	line-height: var(--lh-large);
+	color: var(--wp--preset--color--light-gray-100);
+	background-color: var(--wp--preset--color--mt-dark-blue);
+}
+
 h1,
 h2,
 h3,
@@ -10,420 +155,354 @@ h6,
 .h3,
 .h4,
 .h5,
-.h6,
-p,
-span {
-	font-family: "Leon Sans", sans-serif;
+.h6 {
+	font-family: var(--ff-special);
+	font-weight: var(--fw-special-bold);
 }
 
-p {
-	font-size: 1.4rem;
-	line-height: 130%;
+h1,
+.h1 {
+	font-size: var(--step-5);
+	line-height: var(--lh-small);
+	text-transform: uppercase;
 }
+
+h2,
+.h2 {
+	font-size: var(--step-4);
+	line-height: var(--lh-small);
+	text-transform: uppercase;
+}
+
+h3,
+.h3 {
+	font-size: var(--step-3);
+	line-height: var(--lh-small);
+}
+
+h4,
+.h4 {
+	font-size: var(--step-2);
+	line-height: var(--lh-medium);
+}
+
+h5,
+.h5 {
+	font-size: var(--step-1);
+	line-height: var(--lh-medium);
+}
+
+h6,
+.h6 {
+	font-size: var(--step-0);
+	line-height: var(--lh-medium);
+}
+
+/* Grouping content
+   ======================================== */
+
+/*
+Remove list styles on `ol` and `ul` elements with an explicit ARIA list role added, which prevents VoiceOver from removing the list semantics in Safari.
+*/
+:is(ol, ul)[role="list"] {
+	padding-inline-start: 0;
+	list-style: none;
+}
+
+/* Text-level semantics
+   ======================================== */
 
 a {
-	color: #11eea9;
-}
-
-a:hover {
-	color: #0395fc;
-}
-
-@media (max-width: 768px) {
-	p {
-		font-size: 1.125rem;
-	}
-}
-
-.text-green {
-	color: #11eea9;
-}
-
-.text-light-blue {
-	color: #0395fc;
-}
-
-.text-light-gray {
-	color: #fbfbfc;
-}
-
-.bg-dark-blue {
-	background: #061e3a;
-}
-
-.badge.badge-primary {
-	background: #0395fc;
-}
-
-.padding-section {
-	padding-top: 7rem;
-	padding-bottom: 7rem;
-}
-
-.padding-section-top {
-	padding-top: 7rem;
-}
-
-.padding-section-bottom {
-	padding-bottom: 7rem;
-}
-
-@media (max-width: 768px) {
-	.padding-section {
-		padding-top: 5rem;
-		padding-bottom: 5rem;
-	}
-
-	.padding-section-top {
-		padding-top: 5rem;
-	}
-
-	.padding-section-bottom {
-		padding-bottom: 5rem;
-	}
-}
-
-@media (max-width: 375.5px) {
-	.padding-section {
-		padding-top: 3rem;
-		padding-bottom: 3rem;
-	}
-
-	.padding-section-top {
-		padding-top: 3rem;
-	}
-
-	.padding-section-bottom {
-		padding-bottom: 3rem;
-	}
-}
-
-#hero .bg-img-banner {
-	width: 100%;
-	height: 425px;
-	background: url("../img/banner.png") center center;
-	background-size: cover !important;
+	color: var(--wp--preset--color--mt-green);
+	background-image: linear-gradient(to bottom, var(--wp--preset--color--mt-green) 0%, var(--wp--preset--color--mt-green) 100%);
 	background-repeat: no-repeat;
-	background-position: bottom;
-	position: absolute;
-	top: 0;
-	mix-blend-mode: lighten;
+	background-position: 0 0;
+	background-size: 0% 1.3em;
+	transition:
+		background-size 0.4s,
+		color 0.4s;
 }
 
-#hero .bg-img-banner:before {
-	content: "";
-	background: #061e3a;
-	opacity: 0.3;
-	position: absolute;
-	bottom: 0;
-	top: 0;
-	left: 0;
-	right: 0;
+.site-footer {
+	font-size: var(--step--1);
 }
 
-@media (max-width: 1440px) {
-	#hero .bg-img-banner {
-		height: 370px;
-	}
+.site-footer a {
+	--color: var(--wp--preset--color--light-gray-100, white);
+
+	color: var(--color);
+	text-transform: uppercase;
+	background-image: linear-gradient(to bottom, var(--color) 0%, var(--color) 100%);
+	background-size: 0% 1.5em;
 }
 
-@media (max-width: 768px) {
-	#hero .bg-img-banner {
-		height: 420px;
-	}
+a:is(:hover, :focus) {
+	color: var(--wp--preset--color--mt-dark-blue);
+	background-size: 100% 1.3em;
 }
 
-@media (max-width: 375.5px) {
-	#hero .bg-img-banner {
-		height: 375px;
-	}
+.site-footer a:is(:hover, :focus) {
+	color: var(--wp--preset--color--mt-dark-blue);
+	background-size: 100% 1.5em;
 }
 
-#hero h1 {
-	font-size: 3rem;
-	line-height: 120%;
+b,
+strong {
+	font-weight: var(--fw-regular-bold);
 }
 
-#hero h2 {
-	color: #11eea9;
-	font-size: 2rem;
-	line-height: 120%;
+/* Embedded content
+======================================== */
+
+img,
+svg {
+	margin-inline: auto;
+}
+
+/* Interactive elements
+   ======================================== */
+
+summary {
+	position: relative;
+	padding-inline-end: 4rem;
+	font-size: var(--step-1);
 	font-weight: 500;
-}
-
-#hero p {
-	color: #fbfbfc;
-	line-height: 130%;
-	padding-left: 14rem;
-	padding-right: 14rem;
-}
-
-@media (max-width: 1200px) {
-	#hero p {
-		padding-left: 9rem;
-		padding-right: 9rem;
-	}
-}
-
-@media (max-width: 991.5px) {
-	#hero p {
-		padding-left: 6rem;
-		padding-right: 6rem;
-	}
-}
-
-@media (max-width: 768px) {
-	#hero h1 {
-		font-size: 2.5rem;
-	}
-
-	#hero h2 {
-		font-size: 2rem;
-	}
-
-	#hero p {
-		font-size: 1.5rem;
-		padding-left: 1.5rem;
-		padding-right: 1.5rem;
-	}
-}
-
-@media (max-width: 375.5px) {
-	#hero h1 {
-		font-size: 2rem;
-	}
-
-	#hero h2 {
-		font-size: 1.5rem;
-	}
-
-	#hero p {
-		font-size: 1.125rem;
-	}
-
-	h2.h1 {
-		font-size: 2rem;
-		line-height: 105%;
-	}
-}
-
-.card-feature .hr {
-	width: 3px;
-	height: 75px;
-	background: #0395fc;
-}
-
-.bg-img-plans {
-	width: 100%;
-	height: 100%;
-	background: url("../img/img-fractal.png") center center;
-	background-size: cover !important;
-	background-repeat: no-repeat;
-	background-position: center;
-	position: absolute;
-	top: 0;
-}
-
-.card-pricing-plan {
-	padding: 2rem;
-	line-height: 133%;
-	border: 3px solid #0395fc;
-	border-radius: 8px;
-	margin-top: 1.5rem;
-}
-
-@media (max-width: 992px) {
-	.card-pricing-plan {
-		margin-top: 0;
-	}
-}
-
-.card-pricing-plan.recommended {
-	border: inherit;
-	background: linear-gradient(135deg, #11eea9 29.17%, #0395fc 70.31%, #0054ff 100%) !important;
-	margin-top: 0;
-	z-index: 2;
-}
-
-.card-pricing-plan.recommended:before {
-	content: "";
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	margin: 3px;
-	border-radius: inherit;
-	background: #061e3a;
-	z-index: -1;
-}
-
-.card-pricing-plan .card-header span {
-	font-size: 1.125rem;
-	line-height: 154%;
-	white-space: normal;
-	text-align: left;
-}
-
-.card-pricing-plan.recommended .card-header span {
-	color: #061e3a;
-	background: linear-gradient(135deg, #11eea9 29.17%, #0395fc 70.31%, #0054ff 100%);
-}
-
-.card-pricing-plan .card-header h3 {
-	font-size: 3.375rem;
-	font-style: normal;
-	line-height: 131%;
-}
-
-.card-pricing-plan.card-text-sm .card-header h3 {
-	font-size: 2.875rem;
-}
-
-@media (min-width: 991px) and (max-width: 1200px) {
-	.card-pricing-plan .card-header h3 {
-		font-size: 3.125rem;
-	}
-}
-
-.card-pricing-plan.card-text-sm .card-body p {
-	font-size: 1.125rem;
-}
-
-@media (max-width: 1200px) {
-	.card-pricing-plan.card-text-sm {
-		padding: 1.8rem;
-	}
-
-	.card-pricing-plan.card-text-sm .card-header h3 {
-		font-size: 2.25rem;
-	}
-
-	.card-pricing-plan.card-text-sm .card-body p,
-	.card-pricing-plan.card-text-sm .card-body a {
-		font-size: 0.75rem;
-	}
-}
-
-@media (max-width: 991px) {
-	.card-pricing-plan.card-text-sm {
-		padding: 2rem;
-	}
-
-	.card-pricing-plan.card-text-sm .card-header h3 {
-		font-size: 3.5rem;
-	}
-
-	.card-pricing-plan.card-text-sm .card-body p {
-		font-size: 1.125rem;
-	}
-
-	.card-pricing-plan.card-text-sm .card-body a {
-		font-size: 1rem;
-	}
-}
-
-@media (max-width: 375px) {
-	.card-pricing-plan .card-header h3 {
-		font-size: 3.125rem;
-	}
-}
-
-.card-pricing-plan .hr {
-	width: 100%;
-	height: 1px;
-	opacity: 0.5;
-	background: #0395fc;
-}
-
-.card-pricing-plan .card-footer .images-logos-payment img {
-	max-height: 30px;
-	object-fit: contain;
-}
-
-#faq .card-header,
-#faq .card-header.collapse {
+	line-height: var(--lh-small);
+	color: var(--wp--preset--color--mt-green, #28e8a3);
+	list-style: none;
 	cursor: pointer;
-	border-bottom: 1px solid #0395fc;
-	margin-bottom: 0px;
+	transition: color 0.3s;
 }
 
-#faq .card-header.collapsed img {
-	transform: rotate(0deg);
-	transition: 0.5s;
+summary::-webkit-details-marker {
+	display: none;
 }
 
-#faq .card-header .h4 {
-	font-size: 1.5rem;
-	line-height: 120%;
+summary:hover,
+details[open] summary {
+	color: var(--wp--preset--color--mt-blue, #11d9ed);
 }
 
-#faq .card-header img {
-	transform: rotate(180deg);
-	transition: 0.5s;
+summary ~ * {
+	margin-block: var(--flow-space, 1em);
 }
 
-#faq .collapsing {
-	overflow: unset;
-	transition: 0.5s;
+details .icon-chevron-down {
+	position: absolute;
+	top: 50%;
+	right: 1em;
+	width: 0.6em;
+	height: 0.5em;
+	content: "";
+	transition: transform 0.3s;
+	transform: translateY(-50%);
 }
 
-#faq .card-body {
-	border-bottom: 1px solid #11eea9;
+details[open] .icon-chevron-down {
+	transform: translateY(-50%) rotate(180deg);
 }
 
-@media (max-width: 375.5px) {
-	#faq .card-header .h4 {
-		font-size: 1.125rem;
-	}
+/* ============ 3. COMPOSITION / LAYOUT PRIMITIVES ============ */
+
+/* Flow
+   ======================================== */
+
+.flow > * + * {
+	margin-block-start: var(--flow-space, 1em);
 }
 
-.btn-primary {
-	color: #061e3a !important;
-	line-height: 24px;
-	background-color: #11eea9 !important;
-	border-color: #11eea9 !important;
-	transition: 0.3s;
+/* Stack
+   ======================================== */
+
+[class*="l-stack"] {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
 }
 
-.btn-primary:hover {
-	color: #061e3a !important;
-	background-color: #0395fc !important;
-	border-color: #0395fc !important;
+[class*="l-stack"] > * {
+	margin-block: 0;
 }
 
-.btn-primary:focus,
-.btn-primary.focus {
-	-webkit-box-shadow: none;
-	box-shadow: none;
+[class*="l-stack"] > * + * {
+	margin-block-start: var(--space, 1rem);
 }
 
-.btn-primary.disabled,
-.btn-primary:disabled {
-	color: #061e3a !important;
-	background-color: #11eea9 !important;
-	border-color: #11eea9 !important;
+.l-stack-xxxxl > * + * {
+	--space: var(--s-900);
 }
 
-.btn-primary:not(:disabled):not(.disabled):active,
-.btn-primary:not(:disabled):not(.disabled).active,
-.show > .btn-primary.dropdown-toggle {
-	color: #061e3a !important;
-	background-color: #0395fc !important;
-	border-color: #0395fc !important;
-}
-.btn-primary:not(:disabled):not(.disabled):active:focus,
-.btn-primary:not(:disabled):not(.disabled).active:focus,
-.show > .btn-primary.dropdown-toggle:focus {
-	-webkit-box-shadow: none;
-	box-shadow: none;
+.l-stack-xxxl > * + * {
+	--space: var(--s-800);
 }
 
-footer {
-	padding-top: 40px;
-	padding-bottom: 40px;
+.l-stack-xxl > * + * {
+	--space: var(--s-700);
 }
 
-footer a {
-	font-size: 1.125rem;
+.l-stack-xl > * + * {
+	--space: var(--s-600);
 }
+
+.l-stack-lg > * + * {
+	--space: var(--s-500);
+}
+
+.l-stack-md > * + * {
+	--space: var(--s-400);
+}
+
+.l-stack-sm > * + * {
+	--space: var(--s-300);
+}
+
+.l-stack-xs > * + * {
+	--space: var(--s-200);
+}
+
+.l-stack-xxs > * + * {
+	--space: var(--s-100);
+}
+
+/* Switcher
+   ======================================== */
+
+.l-switcher {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--padding-xxxl);
+}
+
+.l-switcher > * {
+	flex-basis: calc((100rem - 100%) * 999);
+	flex-grow: 1;
+}
+
+.l-switcher > :nth-last-child(n + 5),
+.l-switcher > :nth-last-child(n + 5) ~ * {
+	flex-basis: 100%;
+}
+
+/* ============ 4. UTILITY CLASSES ============ */
+
+/* Standard utility classes
+   ======================================== */
+
+.visually-hidden {
+	position: absolute !important;
+	inline-size: 1px !important;
+	block-size: 1px !important;
+	overflow: hidden !important;
+	clip-path: inset(50%) !important;
+	white-space: nowrap !important;
+}
+
+.wrapper {
+	max-inline-size: var(--page-max-inline-size);
+	padding-inline: var(--padding-xl);
+	margin-inline: auto;
+}
+
+/* Design tokens utility classes
+   ======================================== */
+
+.text-center {
+	text-align: center;
+}
+
+.text-start {
+	text-align: start;
+}
+
+/* ============ 5. BLOCKS ============ */
+
+.badge {
+	inline-size: max-content;
+	padding-block: var(--padding-xxs);
+	padding-inline: var(--padding-md);
+	font-family: var(--ff-special);
+	font-size: var(--step-0);
+	font-weight: var(--fw-special-bold);
+	line-height: var(--lh-large);
+	color: var(--wp--preset--color--mt-dark-blue);
+	text-transform: uppercase;
+	background-color: var(--wp--preset--color--mt-blue);
+}
+
+.button {
+	display: inline-block;
+	padding-block: var(--padding-sm);
+	padding-inline: var(--padding-xl);
+	font-family: var(--ff-special);
+	font-size: var(--step-1);
+	font-weight: var(--fw-special-bold);
+	line-height: var(--lh-small);
+	color: var(--wp--preset--color--mt-dark-blue);
+	text-align: center;
+	text-decoration: none;
+	text-transform: uppercase;
+	background-color: var(--wp--preset--color--mt-green);
+	background-image: none;
+	transition:
+		color 0.2s,
+		background-color 0.2s;
+}
+
+.button:is(:hover, :focus) {
+	color: white;
+	background-color: var(--wp--preset--color--mt-blue);
+}
+
+.card {
+	inline-size: 100%;
+	min-inline-size: 0;
+	padding: var(--padding-xxxl);
+	border: 6px solid var(--wp--preset--color--mt-blue);
+}
+
+.card__footer {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--padding-md);
+	align-items: center;
+	justify-content: center;
+	font-size: var(--step--1);
+}
+
+.card__footer > p + div {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+}
+
+.card .button {
+	inline-size: 100%;
+}
+
+.hero-banner {
+	position: relative;
+}
+
+.hero-banner__background {
+	position: absolute;
+	top: 100%;
+	z-index: -1;
+	inline-size: 100%;
+	min-block-size: clamp(18rem, 85vh, 25rem);
+	vertical-align: middle;
+	object-fit: cover;
+}
+
+.hero-banner__subtitle {
+	font-size: var(--step-2);
+	line-height: var(--lh-small);
+	color: var(--wp--preset--color--mt-green);
+}
+
+.spacer {
+	inline-size: 100%;
+	block-size: 6px;
+	background-color: var(--wp--preset--color--white);
+}
+
+/* ============ 6. EXCEPTIONS ============ */
